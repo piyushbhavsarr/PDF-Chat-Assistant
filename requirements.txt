@@ -28,7 +28,6 @@ defusedxml
 distro
 dnspython
 email_validator
-en-core-web-sm
 executing
 faiss-cpu
 fastapi
