@@ -156,3 +156,4 @@ wcwidth
 weasel
 websockets
 wrapt
+headers_workaround
