@@ -12,13 +12,15 @@ import os
 import google.generativeai as genai
 import subprocess
 import spacy
+from spacy.cli import download
 
 
+model_name = "en_core_web_sm"
 try:
-    nlp = spacy.load("en_core_web_sm")
+    nlp = spacy.load(model_name)
 except OSError:
-    subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
-    nlp = spacy.load("en_core_web_sm")
+    download(model_name)
+    nlp = spacy.load(model_name)
 
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
