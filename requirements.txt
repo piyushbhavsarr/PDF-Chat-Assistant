@@ -156,4 +156,3 @@ wcwidth
 weasel
 websockets
 wrapt
-yarl
