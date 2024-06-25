@@ -13,15 +13,9 @@ import google.generativeai as genai
 import subprocess
 import spacy
 from spacy.cli import download
+import tempfile
 
 
-# Ensure the Spacy model is downloaded and loaded
-model_name = "en_core_web_sm"
-try:
-    nlp = spacy.load(model_name)
-except OSError:
-    download(model_name)
-    nlp = spacy.load(model_name)
 
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
@@ -30,6 +24,13 @@ load_dotenv()
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=GOOGLE_API_KEY)
 
+def load_spacy_model(model_name="en_core_web_sm"):
+    tmp_dir = tempfile.mkdtemp()
+    download(model_name, dir=tmp_dir)
+    model_path = f"{tmp_dir}/{model_name}/{model_name}-{spacy.__version__}"
+    nlp = spacy.load(model_path)
+    return nlp
+nlp = load_spacy_model()
 # Initialize Spacy embeddings
 embeddings = SpacyEmbeddings(model_name="en_core_web_sm")
 
