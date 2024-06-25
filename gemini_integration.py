@@ -10,6 +10,15 @@ from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain.agents import AgentExecutor, create_tool_calling_agent
 import os
 import google.generativeai as genai
+import subprocess
+
+
+@st.cache_resource
+def download_en_core_web_sm():
+    subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
+
+# Call the function at the beginning of your app
+download_en_core_web_sm()
 
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
