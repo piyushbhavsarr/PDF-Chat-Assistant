@@ -26,10 +26,11 @@ genai.configure(api_key=GOOGLE_API_KEY)
 
 def load_spacy_model(model_name="en_core_web_sm"):
     tmp_dir = tempfile.mkdtemp()
-    download(model_name, dir=tmp_dir)
-    model_path = f"{tmp_dir}/{model_name}/{model_name}-{spacy.__version__}"
-    nlp = spacy.load(model_path)
+    os.environ["SPACY_DATA"] = tmp_dir
+    spacy.cli.download(model_name)
+    nlp = spacy.load(model_name)
     return nlp
+
 nlp = load_spacy_model()
 # Initialize Spacy embeddings
 embeddings = SpacyEmbeddings(model_name="en_core_web_sm")
