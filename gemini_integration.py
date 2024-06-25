@@ -11,14 +11,14 @@ from langchain.agents import AgentExecutor, create_tool_calling_agent
 import os
 import google.generativeai as genai
 import subprocess
+import spacy
 
 
-@st.cache_resource
-def download_en_core_web_sm():
+try:
+    nlp = spacy.load("en_core_web_sm")
+except OSError:
     subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
-
-# Call the function at the beginning of your app
-download_en_core_web_sm()
+    nlp = spacy.load("en_core_web_sm")
 
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
