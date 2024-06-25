@@ -15,13 +15,13 @@ import spacy
 from spacy.cli import download
 
 
+# Ensure the Spacy model is downloaded and loaded
 model_name = "en_core_web_sm"
-model_path = os.path.join(st.__path__[0], 'en_core_web_sm')
-if not os.path.exists(model_path):
+try:
+    nlp = spacy.load(model_name)
+except OSError:
     download(model_name)
-    spacy.load(model_name).to_disk(model_path)
-else:
-    nlp = spacy.load(model_path)
+    nlp = spacy.load(model_name)
 
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
