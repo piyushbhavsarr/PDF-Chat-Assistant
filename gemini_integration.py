@@ -24,14 +24,19 @@ load_dotenv()
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=GOOGLE_API_KEY)
 
-def load_spacy_model(model_name="en_core_web_sm"):
-    tmp_dir = tempfile.mkdtemp()
-    os.environ["SPACY_DATA"] = tmp_dir
-    spacy.cli.download(model_name)
-    nlp = spacy.load(model_name)
-    return nlp
 
-nlp = load_spacy_model()
+# Ensure the Spacy model is downloaded and loaded
+model_name = "en_core_web_sm"
+model_path = f"models/{model_name}"
+if not os.path.exists(model_path):
+    st.info(f"Downloading {model_name} model...")
+    os.makedirs(model_path, exist_ok=True)
+    urllib.request.urlretrieve(f"https://github.com/piyushbhavsarr/PDF-Chat-Assistant/raw/main/models/{model_name}/en_core_web_sm.tar.gz", f"{model_path}/en_core_web_sm.tar.gz")
+    os.system(f"tar -xf {model_path}/en_core_web_sm.tar.gz -C {model_path}")
+    os.remove(f"{model_path}/en_core_web_sm.tar.gz")
+
+nlp = spacy.load(model_path)
+
 # Initialize Spacy embeddings
 embeddings = SpacyEmbeddings(model_name="en_core_web_sm")
 
