@@ -25,20 +25,8 @@ GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=GOOGLE_API_KEY)
 
 
-# Ensure the Spacy model is downloaded and loaded
-model_name = "en_core_web_sm"
-model_path = f"models/{model_name}"
-if not os.path.exists(model_path):
-    st.info(f"Downloading {model_name} model...")
-    os.makedirs(model_path, exist_ok=True)
-    urllib.request.urlretrieve(f"https://github.com/piyushbhavsarr/PDF-Chat-Assistant/raw/main/models/{model_name}/en_core_web_sm.tar.gz", f"{model_path}/en_core_web_sm.tar.gz")
-    os.system(f"tar -xf {model_path}/en_core_web_sm.tar.gz -C {model_path}")
-    os.remove(f"{model_path}/en_core_web_sm.tar.gz")
-
-nlp = spacy.load(model_path)
-
-# Initialize Spacy embeddings
-embeddings = SpacyEmbeddings(model_name="en_core_web_sm")
+spacy_model_path = "models/en_core_web_sm"  # Update with your actual path
+embeddings = SpacyEmbeddings(model_path=spacy_model_path)
 
 # Gemini model initialization
 model = genai.GenerativeModel('gemini-1.5-flash')
