@@ -24,9 +24,8 @@ load_dotenv()
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=GOOGLE_API_KEY)
 
-
-spacy_model_path = "models/en_core_web_sm"  # Update with your actual path
-embeddings = SpacyEmbeddings(model_path=spacy_model_path)
+nlp = spacy.load("models/en_core_web_sm")
+embeddings = SpacyEmbeddings(nlp=nlp)
 
 # Gemini model initialization
 model = genai.GenerativeModel('gemini-1.5-flash')
